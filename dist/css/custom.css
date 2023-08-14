@@ -1,0 +1,120 @@
+.table-wrapper {
+  overflow: auto;
+  border-radius: 10px;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.table-wrapper table {
+  min-width: 900px;
+  width: 100%;
+}
+
+.custom-table thead {
+  background-image: linear-gradient(135deg, #e84c89, #9863a3);
+}
+
+thead td {
+  padding: 10px;
+}
+
+tbody tr:nth-child(even) {
+  background-color: ghostwhite;
+}
+
+tbody td {
+  padding: 5px 10px;
+}
+
+tbody td .status {
+  border-radius: 3px;
+  cursor: pointer;
+  background: ghostwhite;
+  padding: 3px 6px;
+}
+
+.custom-table thead td {
+  color: white;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: 300;
+}
+td .filter-box {
+  margin: 5px;
+}
+
+td img.banner {
+  width: 100px;
+  height: auto;
+}
+
+.upload-btn {
+  position: relative;
+}
+
+.file-input {
+  position: absolute;
+  z-index: -1;
+  height: 0.1;
+  width: 0.1;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.response {
+  width: 100%;
+  text-align: center;
+  background: #e84c89;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  font-weight: 300;
+}
+
+.response.success,
+.status.success {
+  background: rgb(89, 148, 2);
+  color: white;
+}
+
+li.each-tag {
+  margin-bottom: 5px;
+  position: relative;
+}
+
+.list-delete {
+  position: absolute;
+  width: 10px;
+  cursor: pointer;
+  right: 5px;
+  top: 5px;
+}
+
+.identity {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+.identity img {
+  width: 70px;
+}
+
+.check-wrapper {
+  cursor: pointer;
+}
+
+.check-wrapper.active .check-indicator {
+  background: #e74d8a;
+}
+
+.msg {
+  padding: 10px;
+  text-align: center;
+  color: green;
+  letter-spacing: 1px;
+}
+
+.msg.error {
+  color: red;
+}
