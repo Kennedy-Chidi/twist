@@ -32,6 +32,13 @@ router.post(
 router.route("/").get(userController.getAllUsers);
 
 router
+  .route("/edit-user/:id")
+  .patch(
+    upload.upload.fields([{ name: "profilePicture" }, { name: "idPicture" }]),
+    userController.editAUser
+  );
+
+router
   .route("/:id")
   .get(userController.getAUser)
   .patch(

@@ -138,3 +138,58 @@ exports.resetUser = catchAsync(async (req, res, next) => {
     status: "success",
   });
 });
+
+exports.editAUser = catchAsync(async (req, res, next) => {
+  let data = req.body;
+  let files = [];
+  const oldUser = await User.findById(req.params.id);
+
+  if (data.balance) {
+    await Account.findByIdAndUpdate(data.accountId, {
+      balance: data.balance,
+    });
+  }
+
+  if (req.files && req.files.profilePicture) {
+    if (req.files.profilePicture) {
+      data.profilePicture = req.files.profilePicture[0].filename;
+      files.push(oldUser.profilePicture);
+    }
+    if (req.files.idPicture) {
+      data.idPicture = req.files.idPicture[0].filename;
+      files.push(oldUser.idPicture);
+    }
+  }
+
+  data.password = undefined;
+  data.cPassword = undefined;
+
+  const form = {
+    username: data.username,
+    firstName: data.firstName,
+    middleName: data.middleName,
+    lastName: data.lastName,
+    dob: data.dob,
+    income: data.income,
+    gender: data.gender,
+    maritalStatus: data.maritalStatus,
+    totalBalance: data.totalBalance,
+  };
+
+  const user = await User.findByIdAndUpdate(req.params.id, form, {
+    new: true,
+    // runValidators: true,
+  });
+
+  if (!user) {
+    return next(new AppError("No user found with that ID", 404));
+  }
+
+  // req.fileNames = files;
+
+  // req.user = user;
+
+  res.status(200).json({
+    status: "success",
+  });
+});
