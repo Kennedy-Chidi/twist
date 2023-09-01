@@ -45,6 +45,38 @@ exports.signup = catchAsync(async (req, res, next) => {
     return next(new AppError(`Please upload the necessary documents!`, 500));
   }
 
+  const userName = await User.findOne({ username: req.body.username });
+  if (userName) {
+    return next(
+      new AppError(
+        `Someone with the username ${userName.username} already exist!`,
+        500
+      )
+    );
+  }
+
+  //CHECK FOR UNIQUE EMAIL
+  const userEmail = await User.findOne({ email: req.body.email });
+  if (userEmail) {
+    return next(
+      new AppError(
+        `Someone with the email ${userEmail.email} already exist!`,
+        500
+      )
+    );
+  }
+
+  //CHECK FOR UNIQUE PHONE NUMBER
+  const userPhone = await User.findOne({ phoneNumber: req.body.phoneNumber });
+  if (userPhone) {
+    return next(
+      new AppError(
+        `Someone with the phone number ${userPhone.phoneNumber} already exist!`,
+        500
+      )
+    );
+  }
+
   if (req.body.dob == "") {
     req.body.dob = 18 * 60 * 60 * 24;
   }

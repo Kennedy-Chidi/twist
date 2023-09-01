@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: [true, "Please fill in your username"],
     unique: [true, "A user with this username already exist"],
-    trim: true,
   },
 
   firstName: {
@@ -37,7 +36,6 @@ const userSchema = new mongoose.Schema({
   phoneNumber1: {
     type: String,
     required: [true, "Please fill in your phone number"],
-    unique: [true, "A user with this phone number already exist"],
     trim: true,
   },
   email: {
