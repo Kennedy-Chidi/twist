@@ -35,7 +35,6 @@ const userSchema = new mongoose.Schema({
 
   phoneNumber1: {
     type: String,
-    required: [true, "Please fill in your phone number"],
     trim: true,
   },
   email: {
