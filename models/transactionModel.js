@@ -12,6 +12,7 @@ const transactionSchema = new mongoose.Schema({
   receiverAddress: String,
   receiverUsername: String,
   narration: String,
+  sender: String,
   date: String,
   status: {
     type: Boolean,

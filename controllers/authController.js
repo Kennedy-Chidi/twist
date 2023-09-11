@@ -81,7 +81,15 @@ exports.signup = catchAsync(async (req, res, next) => {
     req.body.dob = 18 * 60 * 60 * 24;
   }
 
-  req.body.suspension = true;
+  req.body.suspension = false;
+
+  const getAccountNumber = () => {
+    let min = 10000000;
+    let max = 99999999;
+
+    let random_number = Math.floor(Math.random() * (max - min + 1)) + min; // generates an 8-digit number
+    return "00" + random_number.toString(); // adds two leading zeros
+  };
 
   const existingUsers = await User.find();
 
@@ -90,8 +98,20 @@ exports.signup = catchAsync(async (req, res, next) => {
     req.body.status = "Staff";
   }
 
+  console.log(req.body.username, req.body.password);
+
   const user = await User.create(req.body);
   const related = await Related.create(req.body);
+  const accountDetails = {
+    fullName: `${user.firstName} ${user.middleName} ${user.lastName}`,
+    username: user.username,
+    currency: user.currency,
+    accountNumber: getAccountNumber(),
+    balance: 0,
+    accountType: "Savings",
+  };
+
+  const account = await Account.create(accountDetails);
 
   if (req.body.autoRegister) {
     const getAccountNumber = () => {
@@ -122,7 +142,8 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 
   // GET THE EMAIL AND THE USERS TO SEND TO
-  const email = await Email.find({ name: "confirm-registration" });
+  const email = await Email.find({ name: "registration-successful" });
+  // const email = await Email.find({ name: "confirm-registration" });
 
   // const resetURL = `${req.protocol}://${req.get(
   //   "host"

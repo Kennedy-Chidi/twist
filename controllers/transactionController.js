@@ -64,7 +64,8 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
       allowedFields.user.username,
       allowedFields.transactionType,
       allowedFields.date,
-      allowedFields.dateCreated
+      allowedFields.dateCreated,
+      allowedFields
     );
   }
 
@@ -165,7 +166,7 @@ exports.approveTransaction = catchAsync(async (req, res, next) => {
     `${form.transactionType}-approval`,
     form.date,
     form.dateCreated,
-    ""
+    form
   );
 
   sendTransactionEmail(user, email.name, form.amount, "", account);
@@ -192,7 +193,7 @@ exports.approveTransaction = catchAsync(async (req, res, next) => {
       `credit-approval`,
       form.date,
       form.dateCreated,
-      form.username
+      form
     );
 
     sendTransactionEmail(receiver, email.name, form.amount, "", account);

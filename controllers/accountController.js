@@ -58,6 +58,8 @@ exports.deleteAccount = catchAsync(async (req, res, next) => {
 exports.getAnAccount = catchAsync(async (req, res, next) => {
   const account = await Account.findOne({ username: req.params.id });
 
+  console.log(account);
+
   res.status(200).json({
     status: "success",
     data: account,
