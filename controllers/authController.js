@@ -199,7 +199,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     );
   }
 
-  // createSendToken(user, 201, res);
+  createSendToken(user, 201, res);
 
   res.status(200).json({
     status: "success",
