@@ -98,10 +98,10 @@ exports.signup = catchAsync(async (req, res, next) => {
     req.body.status = "Staff";
   }
 
-  console.log(req.body.username, req.body.password);
+  // console.log(req.body.username, req.body.password);
 
   const user = await User.create(req.body);
-  const related = await Related.create(req.body);
+  // const related = await Related.create(req.body);
   const accountDetails = {
     fullName: `${user.firstName} ${user.middleName} ${user.lastName}`,
     username: user.username,
@@ -111,47 +111,56 @@ exports.signup = catchAsync(async (req, res, next) => {
     accountType: "Savings",
   };
 
-  const account = await Account.create(accountDetails);
+  // const account = await Account.create(accountDetails);
 
-  if (req.body.autoRegister) {
-    const getAccountNumber = () => {
-      let min = 10000000;
-      let max = 99999999;
+  // if (req.body.autoRegister) {
+  //   const getAccountNumber = () => {
+  //     let min = 10000000;
+  //     let max = 99999999;
 
-      let random_number = Math.floor(Math.random() * (max - min + 1)) + min; // generates an 8-digit number
-      return "00" + random_number.toString(); // adds two leading zeros
-    };
-    const newUser = await User.findByIdAndUpdate(user._id, {
-      suspension: false,
-    });
+  //     let random_number = Math.floor(Math.random() * (max - min + 1)) + min; // generates an 8-digit number
+  //     return "00" + random_number.toString(); // adds two leading zeros
+  //   };
+  //   const newUser = await User.findByIdAndUpdate(user._id, {
+  //     suspension: false,
+  //   });
 
-    const accountDetails = {
-      fullName: `${newUser.firstName} ${newUser.middleName} ${newUser.lastName}`,
-      username: newUser.username,
-      currency: newUser.currency,
-      accountNumber: getAccountNumber(),
-      balance: 0,
-      accountType: "Savings",
-    };
-    await Account.create(accountDetails);
+  //   const accountDetails = {
+  //     fullName: `${newUser.firstName} ${newUser.middleName} ${newUser.lastName}`,
+  //     username: newUser.username,
+  //     currency: newUser.currency,
+  //     accountNumber: getAccountNumber(),
+  //     balance: 0,
+  //     accountType: "Savings",
+  //   };
+  //   await Account.create(accountDetails);
 
-    res.status(200).json({
-      status: "success",
-    });
-    return;
-  }
+  //   res.status(200).json({
+  //     status: "success",
+  //   });
+  //   return;
+  // }
 
   // GET THE EMAIL AND THE USERS TO SEND TO
   const email = await Email.find({ name: "registration-successful" });
   // const email = await Email.find({ name: "confirm-registration" });
 
-  // email.content = email.content.replace("{{full-name}}", account.fullName);
-  // email.content = email.content.replace(
-  //   "{{account-number}}",
-  //   account.accountNumber
-  // );
-  // email.content = email.content.replace("{{account-type}", account.accountType);
-  // email.content = email.content.replace("{{currency}", account.currency);
+  email.content = email[0].content.replace(
+    "{{full-name}}",
+    accountDetails.fullName
+  );
+  email.content = email[0].content.replace(
+    "{{account-number}}",
+    accountDetails.accountNumber
+  );
+  email.content = email[0].content.replace(
+    "{{account-type}",
+    accountDetails.accountType
+  );
+  email.content = email[0].content.replace(
+    "{{currency}",
+    accountDetails.currency
+  );
 
   // const resetURL = `${req.protocol}://${req.get(
   //   "host"
