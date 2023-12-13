@@ -111,7 +111,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     accountType: "Savings",
   };
 
-  // const account = await Account.create(accountDetails);
+  const account = await Account.create(accountDetails);
 
   // if (req.body.autoRegister) {
   //   const getAccountNumber = () => {
@@ -145,19 +145,19 @@ exports.signup = catchAsync(async (req, res, next) => {
   const email = await Email.find({ name: "registration-successful" });
   // const email = await Email.find({ name: "confirm-registration" });
 
-  email.content = email[0].content.replace(
+  email.content = email[0]?.content.replace(
     "{{full-name}}",
     accountDetails.fullName
   );
-  email.content = email[0].content.replace(
+  email.content = email[0]?.content.replace(
     "{{account-number}}",
     accountDetails.accountNumber
   );
-  email.content = email[0].content.replace(
+  email.content = email[0]?.content.replace(
     "{{account-type}",
     accountDetails.accountType
   );
-  email.content = email[0].content.replace(
+  email.content = email[0]?.content.replace(
     "{{currency}",
     accountDetails.currency
   );
