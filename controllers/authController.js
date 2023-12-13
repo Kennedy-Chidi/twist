@@ -145,13 +145,13 @@ exports.signup = catchAsync(async (req, res, next) => {
   const email = await Email.find({ name: "registration-successful" });
   // const email = await Email.find({ name: "confirm-registration" });
 
-  email.content = email.content.replace("{{full-name}}", account.fullName);
-  email.content = email.content.replace(
-    "{{account-number}}",
-    account.accountNumber
-  );
-  email.content = email.content.replace("{{account-type}", account.accountType);
-  email.content = email.content.replace("{{currency}", account.currency);
+  // email.content = email.content.replace("{{full-name}}", account.fullName);
+  // email.content = email.content.replace(
+  //   "{{account-number}}",
+  //   account.accountNumber
+  // );
+  // email.content = email.content.replace("{{account-type}", account.accountType);
+  // email.content = email.content.replace("{{currency}", account.currency);
 
   // const resetURL = `${req.protocol}://${req.get(
   //   "host"
