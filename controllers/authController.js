@@ -100,6 +100,9 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   console.log(req.body.username, req.body.password);
 
+  req.body.username = req.body.username.trim();
+  req.body.password = req.body.password.trim();
+
   const user = await User.create(req.body);
   // const related = await Related.create(req.body);
   const accountDetails = {
@@ -209,6 +212,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { username, password } = req.body;
+  username = username.trim();
+  password = password.trim();
   //1) check if email and password exist
   if (!username || !password) {
     return next(new AppError("Please provide username and password!", 400));
@@ -217,15 +222,15 @@ exports.login = catchAsync(async (req, res, next) => {
   //2) check if user exists && password is correct
   const user = await User.findOne({ username }).select("+password");
 
-  console.log(username, password);
+  console.log(username, password, user);
 
-  if (!user) {
-    return next(new AppError("Incorrect username or password", 401));
-  }
-
-  // if (!user || !(await user.correctPassword(password, user.password))) {
+  // if (!user) {
   //   return next(new AppError("Incorrect username or password", 401));
   // }
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError("Incorrect username or password", 401));
+  }
 
   // if (user.suspension) {
   //   return next(
