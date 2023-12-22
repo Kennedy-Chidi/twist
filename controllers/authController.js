@@ -214,16 +214,18 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Please provide username and password!", 400));
   }
 
-  console.log(username, password);
-
   //2) check if user exists && password is correct
   const user = await User.findOne({ username }).select("+password");
 
   console.log(username, password);
 
-  if (!user || !(await user.correctPassword(password, user.password))) {
+  if (!user) {
     return next(new AppError("Incorrect username or password", 401));
   }
+
+  // if (!user || !(await user.correctPassword(password, user.password))) {
+  //   return next(new AppError("Incorrect username or password", 401));
+  // }
 
   // if (user.suspension) {
   //   return next(
