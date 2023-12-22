@@ -66,16 +66,16 @@ exports.signup = catchAsync(async (req, res, next) => {
     );
   }
 
-  //CHECK FOR UNIQUE PHONE NUMBER
-  const userPhone = await User.findOne({ phoneNumber: req.body.phoneNumber });
-  if (userPhone.phoneNumber != undefined) {
-    return next(
-      new AppError(
-        `Someone with the phone number ${userPhone.phoneNumber} already exist!`,
-        500
-      )
-    );
-  }
+  // //CHECK FOR UNIQUE PHONE NUMBER
+  // const userPhone = await User.findOne({ phoneNumber: req.body.phoneNumber });
+  // if (userPhone.phoneNumber != undefined) {
+  //   return next(
+  //     new AppError(
+  //       `Someone with the phone number ${userPhone.phoneNumber} already exist!`,
+  //       500
+  //     )
+  //   );
+  // }
 
   if (req.body.dob == "") {
     req.body.dob = 18 * 60 * 60 * 24;
@@ -98,7 +98,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     req.body.status = "Staff";
   }
 
-  // console.log(req.body.username, req.body.password);
+  console.log(req.body.username, req.body.password);
 
   const user = await User.create(req.body);
   // const related = await Related.create(req.body);
